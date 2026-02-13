@@ -15,4 +15,4 @@ export const envSchema = Joi.object({
   CLIENT_URL: Joi.string().default('http://localhost:3000'),
   JWT_SECRET: Joi.string().required(),
   JWT_EXPIRES_IN: Joi.string().required(),
-});
+}).unknown(true);
