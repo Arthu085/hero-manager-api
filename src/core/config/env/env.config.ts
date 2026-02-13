@@ -15,6 +15,7 @@ export const envConfig = {
   DB_SCHEMA: envVars.DB_SCHEMA,
   DB_SSL: envVars.DB_SSL,
   PORT: envVars.PORT,
+  NODE_ENV: envVars.NODE_ENV,
   CLIENT_URL: envVars.CLIENT_URL,
   JWT_SECRET: envVars.JWT_SECRET,
   JWT_EXPIRES_IN: envVars.JWT_EXPIRES_IN,

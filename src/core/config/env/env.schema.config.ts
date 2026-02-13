@@ -9,6 +9,9 @@ export const envSchema = Joi.object({
   DB_SCHEMA: Joi.string().default('public'),
   DB_SSL: Joi.boolean().default(false),
   PORT: Joi.number().default(3000),
+  NODE_ENV: Joi.string()
+    .valid('development', 'production', 'test')
+    .default('development'),
   CLIENT_URL: Joi.string().default('http://localhost:3000'),
   JWT_SECRET: Joi.string().required(),
   JWT_EXPIRES_IN: Joi.string().required(),
