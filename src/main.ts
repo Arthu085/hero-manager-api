@@ -7,12 +7,19 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { swaggerConfig } from './core/config/swagger/swagger.config';
 import { HttpExceptionFilter } from './core/filters/http-exception.filter';
 import { TransformResponseInterceptor } from './core/interceptors/transform-response.interceptor';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalInterceptors(new TransformResponseInterceptor(new Reflector()));
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      transform: true,
+    }),
+  );
   app.enableCors(corsConfig);
   app.use(cookieParser());
   app.setGlobalPrefix('api');
