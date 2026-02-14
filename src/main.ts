@@ -5,10 +5,12 @@ import { envConfig } from './core/config/env/env.config';
 import cookieParser from 'cookie-parser';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { swaggerConfig } from './core/config/swagger/swagger.config';
+import { HttpExceptionFilter } from './core/filters/http-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  app.useGlobalFilters(new HttpExceptionFilter());
   app.enableCors(corsConfig);
   app.use(cookieParser());
   app.setGlobalPrefix('api');
