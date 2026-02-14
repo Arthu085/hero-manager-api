@@ -12,4 +12,4 @@ COPY . .
 
 EXPOSE ${PORT}
 
-CMD ["npm", "run", "start:dev"]
+CMD ["sh", "-c", "npm run migration:run && npm run seed:run && npm run start:dev"]
