@@ -118,7 +118,7 @@ npm install
 npm run migration:run
 ```
 
-#### 4. Executar seeds (opcional):
+#### 4. Executar seeds:
 
 ```bash
 npm run seed:run
