@@ -8,7 +8,6 @@ import {
   Post,
   Put,
   Query,
-  UseGuards,
 } from '@nestjs/common';
 import { UUID } from 'crypto';
 import { UserCreateDto } from '../../application/dtos/user-create.dto';
@@ -26,18 +25,17 @@ import { DeleteUserUseCase } from '../../application/use-cases/user/delete-user.
 import { UuidValidationPipe } from 'src/shared/pipes/uuid-validation.pipe';
 import {
   ApiBearerAuth,
+  ApiCookieAuth,
   ApiOperation,
   ApiParam,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'src/modules/auth/infra/guards/jwt-auth.guard';
-import { RolesGuard } from 'src/modules/auth/infra/guards/roles.guard';
 
 @Controller('user')
-@ApiTags('user')
+@ApiTags('User Protected')
 @ApiBearerAuth()
-@UseGuards(JwtAuthGuard, RolesGuard)
+@ApiCookieAuth('token')
 @Roles(RoleEnum.ADMIN)
 export class UserProtectedController {
   constructor(

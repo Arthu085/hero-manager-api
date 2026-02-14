@@ -17,9 +17,10 @@ import { FindOneRoleUseCase } from './application/use-cases/role/find-one-role.u
 import { DeleteUserUseCase } from './application/use-cases/user/delete-user.use-case';
 import { UpdateUserUseCase } from './application/use-cases/user/update-user.use-case';
 import { FindAllUserUseCase } from './application/use-cases/user/find-all-user.use-case';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserEntity, RoleEntity])],
+  imports: [TypeOrmModule.forFeature([UserEntity, RoleEntity]), AuthModule],
   controllers: [UserPublicController, UserProtectedController],
   providers: [
     {

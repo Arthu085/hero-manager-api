@@ -9,6 +9,8 @@ import { UserDomainService } from '../../../domain/services/user-domain.service'
 import { IUserRepository } from 'src/modules/user/domain/interfaces/user.repository.interface';
 import { IPasswordHasher } from 'src/modules/user/domain/interfaces/password-hasher.interface';
 import { UserCharacter } from 'src/modules/user/domain/value-objects/user-character.vo';
+import { RoleEnum } from 'src/shared/enums/role.enum';
+import { UserEntity } from 'src/modules/user/domain/entities/user.entity';
 
 @Injectable()
 export class CreateUserUseCase {
@@ -51,29 +53,28 @@ export class CreateUserUseCase {
     });
   }
 
-  // async register(binds: {
-  //   name: UserName;
-  //   email: UserEmail;
-  //   password: UserPassword;
-  //   role: RoleEnum;
-  // }): Promise<UserEntity> {
-  //   const existingUser = await this.findOneUserUseCase.findByEmail(
-  //     binds.email.getValue(),
-  //   );
+  async register(binds: {
+    name: UserName;
+    email: UserEmail;
+    password: UserPassword;
+    character: UserCharacter;
+  }): Promise<UserEntity> {
+    const existingUser = await this.findOneUserUseCase.findByEmail(
+      binds.email.getValue(),
+    );
 
-  //   this.userDomainService.validateUserExistsCreate(existingUser);
+    this.userDomainService.validateUserExistsCreate(existingUser);
 
-  //   const hashedPassword = await this.passwordHasher.hash(
-  //     binds.password.getValue(),
-  //   );
+    const hashedPassword = await this.passwordHasher.hash(
+      binds.password.getValue(),
+    );
 
-  //   const roleEntity = await this.findOneRoleUseCase.findByName(binds.role);
-
-  //   return await this.userRepository.create({
-  //     name: binds.name.getValue(),
-  //     email: binds.email.getValue(),
-  //     password: hashedPassword,
-  //     role: roleEntity,
-  //   });
-  // }
+    return await this.userRepository.create({
+      name: binds.name.getValue(),
+      email: binds.email.getValue(),
+      password: hashedPassword,
+      character: binds.character.getValue(),
+      role: await this.findOneRoleUseCase.findByName(RoleEnum.USUARIO),
+    });
+  }
 }

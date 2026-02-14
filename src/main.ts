@@ -30,9 +30,20 @@ async function bootstrap() {
     .setVersion(swaggerConfig.version)
     .addTag(swaggerConfig.tag)
     .addBearerAuth()
+    .addCookieAuth('token', {
+      type: 'apiKey',
+      in: 'cookie',
+      name: 'token',
+      description: 'Token JWT armazenado em cookie HttpOnly',
+    })
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api/docs', app, document);
+  SwaggerModule.setup('api/docs', app, document, {
+    swaggerOptions: {
+      persistAuthorization: true,
+      withCredentials: true,
+    },
+  });
 
   await app.listen(envConfig.PORT);
 }
