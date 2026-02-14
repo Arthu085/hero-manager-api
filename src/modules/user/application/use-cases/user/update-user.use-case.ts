@@ -8,7 +8,6 @@ import { StatusEnum } from 'src/shared/enums/status.enum';
 import { UserEmail } from '../../../domain/value-objects/user-email.vo';
 import { UserPassword } from '../../../domain/value-objects/user-password.vo';
 import { UserName } from '../../../domain/value-objects/user-name.vo';
-import { UserAlreadyExistsException } from '../../../domain/exceptions/user-already-exists.exception';
 import { IUserRepository } from 'src/modules/user/domain/interfaces/user.repository.interface';
 import { IPasswordHasher } from 'src/modules/user/domain/interfaces/password-hasher.interface';
 import { ChangeStatusDto } from 'src/shared/dtos/change-status.dto';
@@ -37,8 +36,6 @@ export class UpdateUserUseCase {
     };
 
     const user = await this.findOneUserUseCase.findEntityByUuid(uuid);
-
-    this.userDomainService.validateUserAndEnsureActive(user);
 
     if (binds.name) {
       user.changeName(binds.name);
