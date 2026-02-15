@@ -49,10 +49,14 @@ export class ProjectResponseAllDto extends StatusResponseDto {
   completionPercentage: number;
 
   @Expose()
-  @Transform(({ obj }) => obj.user?.name || null)
-  userName: string | null;
-
-  @Expose()
-  @Transform(({ obj }) => obj.user?.character || null)
-  userCharacter: string | null;
+  @Transform(({ obj }) =>
+    obj.user
+      ? {
+          value: obj.user.uuid,
+          label: obj.user.name,
+          label2: obj.user.character,
+        }
+      : null,
+  )
+  user: { value: UUID; label: string } | null;
 }
