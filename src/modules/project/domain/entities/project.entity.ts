@@ -1,7 +1,7 @@
 import { Entity, Column, Index, ManyToOne, JoinColumn } from 'typeorm';
 import { UserEntity } from 'src/modules/user/domain/entities/user.entity';
 import { BaseEntity } from 'database/entities/base.entity';
-import { ProjectStatus } from '../enums/project-status.enum';
+import { ProjectStatusEnum } from '../enums/project-status.enum';
 import { ProjectName } from '../value-objects/project-name.vo';
 import { ProjectDescription } from '../value-objects/project-description.vo';
 import { StatusEnum } from 'src/shared/enums/status.enum';
@@ -27,11 +27,11 @@ export class ProjectEntity extends BaseEntity {
   @Column({
     type: 'enum',
     name: 'project_status',
-    enum: ProjectStatus,
-    default: ProjectStatus.PENDING,
+    enum: ProjectStatusEnum,
+    default: ProjectStatusEnum.PENDING,
     comment: 'Status do projeto',
   })
-  projectStatus: ProjectStatus;
+  projectStatus: ProjectStatusEnum;
 
   @Column({ type: 'int', default: 0, comment: 'Agilidade do projeto' })
   agility: number;
@@ -64,6 +64,15 @@ export class ProjectEntity extends BaseEntity {
   @ManyToOne(() => UserEntity)
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;
+
+  changeUser(newUser: UserEntity): void {
+    if (this.user && this.user.id === newUser.id) {
+      return;
+    }
+
+    this.user = newUser;
+    this.updatedAt = new Date();
+  }
 
   changeName(newName: ProjectName): void {
     const currentName = ProjectName.create(this.name);
@@ -193,11 +202,11 @@ export class ProjectEntity extends BaseEntity {
 
   updateProjectStatusBasedOnProgress(): void {
     if (this.completionPercentage === 0) {
-      this.projectStatus = ProjectStatus.PENDING;
+      this.projectStatus = ProjectStatusEnum.PENDING;
     } else if (this.completionPercentage === 100) {
-      this.projectStatus = ProjectStatus.COMPLETED;
+      this.projectStatus = ProjectStatusEnum.COMPLETED;
     } else {
-      this.projectStatus = ProjectStatus.IN_PROGRESS;
+      this.projectStatus = ProjectStatusEnum.IN_PROGRESS;
     }
   }
 

@@ -14,6 +14,7 @@ import { ProjectExcellence } from '../../domain/value-objects/project-excellence
 import { ProjectTransparency } from '../../domain/value-objects/project-transparency.vo';
 import { ProjectAmbition } from '../../domain/value-objects/project-ambition.vo';
 import { ProjectDomainService } from '../../domain/services/project-domain.service';
+import { FindOneUserUseCase } from 'src/modules/user/application/use-cases/user/find-one-user.use-case';
 
 @Injectable()
 export class UpdateProjectUseCase {
@@ -21,11 +22,15 @@ export class UpdateProjectUseCase {
     @Inject(IProjectRepository)
     private readonly projectRepository: IProjectRepository,
     private readonly findOneProjectUseCase: FindOneProjectUseCase,
+    private readonly findOneUserUseCase: FindOneUserUseCase,
     private readonly projectDomainService: ProjectDomainService,
   ) {}
 
   async execute(uuid: UUID, dto: ProjectUpdateDto): Promise<void> {
     const binds = {
+      user: dto.user
+        ? await this.findOneUserUseCase.findEntityByUuid(dto.user)
+        : undefined,
       name: dto.name ? ProjectName.create(dto.name) : undefined,
       description: dto.description
         ? ProjectDescription.create(dto.description)
@@ -53,6 +58,10 @@ export class UpdateProjectUseCase {
     };
 
     const project = await this.findOneProjectUseCase.findEntityByUuid(uuid);
+
+    if (binds.user) {
+      project.changeUser(binds.user);
+    }
 
     if (binds.name) {
       project.changeName(binds.name);
