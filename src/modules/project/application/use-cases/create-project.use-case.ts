@@ -22,9 +22,9 @@ export class CreateProjectUseCase {
     private readonly findOneUserUseCase: FindOneUserUseCase,
   ) {}
 
-  async execute(dto: ProjectCreateDto, user: UUID): Promise<void> {
+  async execute(dto: ProjectCreateDto): Promise<void> {
     const binds = {
-      user: await this.findOneUserUseCase.findEntityByUuid(user),
+      user: await this.findOneUserUseCase.findEntityByUuid(dto.user),
       name: ProjectName.create(dto.name),
       description: ProjectDescription.create(dto.description),
       agility: ProjectAgility.create(dto.agility),

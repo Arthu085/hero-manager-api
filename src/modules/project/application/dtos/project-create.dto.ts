@@ -2,12 +2,14 @@ import {
   IsNotEmpty,
   IsNumber,
   IsString,
+  IsUUID,
   Max,
   MaxLength,
   Min,
   MinLength,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { UUID } from 'crypto';
 
 export class ProjectCreateDto {
   @ApiProperty({
@@ -93,4 +95,12 @@ export class ProjectCreateDto {
   @Min(0, { message: 'A ambição deve ser no mínimo 0' })
   @Max(100, { message: 'A ambição deve ser no máximo 100' })
   ambition: number;
+
+  @ApiProperty({
+    description: 'Usuário responsável pelo projeto',
+    example: '123e4567-e89b-12d3-a456-426614174000',
+  })
+  @IsNotEmpty({ message: 'Usuário é obrigatório' })
+  @IsUUID('4', { message: 'Usuário deve ser um UUID válido' })
+  user: UUID;
 }

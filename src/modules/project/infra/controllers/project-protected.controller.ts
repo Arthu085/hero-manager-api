@@ -96,8 +96,8 @@ export class ProjectProtectedController {
   @ApiResponse({ status: 401, description: 'Não autorizado' })
   @ApiResponse({ status: 403, description: 'Acesso negado' })
   @ResponseMessage('Projeto criado com sucesso')
-  create(@Body() dto: ProjectCreateDto, @CurrentUser('uuid') user: UUID) {
-    return this.createProjectUseCase.execute(dto, user);
+  create(@Body() dto: ProjectCreateDto) {
+    return this.createProjectUseCase.execute(dto);
   }
 
   @Roles(RoleEnum.ADMIN)

@@ -65,6 +65,15 @@ export class ProjectEntity extends BaseEntity {
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;
 
+  changeUser(newUser: UserEntity): void {
+    if (this.user && this.user.id === newUser.id) {
+      return;
+    }
+
+    this.user = newUser;
+    this.updatedAt = new Date();
+  }
+
   changeName(newName: ProjectName): void {
     const currentName = ProjectName.create(this.name);
 
