@@ -59,7 +59,7 @@ export class UserDomainService {
   validateAdminRole(user: UserEntity): void {
     if (user.role.name === RoleEnum.ADMIN) {
       throw new UserValidateRoleException(
-        'Não é permitido excluir um usuário com função de ADMIN',
+        'Não é permitido excluir ou inativar um usuário com função de ADMIN',
       );
     }
   }
