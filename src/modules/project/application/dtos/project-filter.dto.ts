@@ -1,7 +1,7 @@
 import { IsEnum, IsOptional, IsString, IsUUID } from 'class-validator';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { FilterDto } from 'src/shared/dtos/filter.dto';
-import { ProjectStatus } from '../../domain/enums/project-status.enum';
+import { ProjectStatusEnum } from '../../domain/enums/project-status.enum';
 import { UUID } from 'crypto';
 
 export class ProjectFilterDto extends FilterDto {
@@ -15,12 +15,12 @@ export class ProjectFilterDto extends FilterDto {
 
   @ApiPropertyOptional({
     description: 'Filtrar por status do projeto',
-    enum: ProjectStatus,
-    example: ProjectStatus.PENDING,
+    enum: ProjectStatusEnum,
+    example: ProjectStatusEnum.PENDING,
   })
   @IsOptional()
-  @IsEnum(ProjectStatus, { message: 'O status deve ser um enum' })
-  projectStatus?: ProjectStatus;
+  @IsEnum(ProjectStatusEnum, { message: 'O status deve ser um enum' })
+  projectStatus?: ProjectStatusEnum;
 
   @ApiPropertyOptional({
     description: 'Filtrar por usuário responsável (UUID)',

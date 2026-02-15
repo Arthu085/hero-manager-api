@@ -1,7 +1,7 @@
 import { Expose, Transform } from 'class-transformer';
 import { UUID } from 'crypto';
 import { StatusResponseDto } from 'src/shared/dtos/status-response.dto';
-import { ProjectStatusTranslated } from '../../domain/enums/project-status.enum';
+import { ProjectStatusEnumTranslated } from '../../domain/enums/project-status.enum';
 
 export class ProjectResponseAllDto extends StatusResponseDto {
   @Expose()
@@ -19,8 +19,8 @@ export class ProjectResponseAllDto extends StatusResponseDto {
       ? {
           value: obj.projectStatus,
           label:
-            ProjectStatusTranslated[
-              obj.projectStatus as keyof typeof ProjectStatusTranslated
+            ProjectStatusEnumTranslated[
+              obj.projectStatus as keyof typeof ProjectStatusEnumTranslated
             ] || obj.projectStatus,
         }
       : null,
