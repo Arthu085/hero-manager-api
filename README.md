@@ -61,7 +61,11 @@ cd hero-manager-api
 
 Crie um arquivo `.env` na raiz do projeto:
 
-**Utilize o env.example**
+**Utilize o .env.example**
+
+```bash
+cp .env.example .env
+```
 
 ### Opção 1: Executar COM Docker (Recomendado)
 
