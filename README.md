@@ -71,9 +71,19 @@ cp .env.example .env
 
 #### Iniciar os containers:
 
+**Primeira execução (ou após mudanças no Dockerfile/dependências):**
+
 ```bash
-docker-compose up -d
+docker compose up -d --build
 ```
+Reconstrói as imagens antes de iniciar os containers.
+
+**Execuções seguintes:**
+
+```bash
+docker compose up -d
+```
+Apenas inicia os containers existentes (mais rápido).
 
 Isso irá:
 
@@ -87,19 +97,25 @@ Isso irá:
 #### Verificar logs:
 
 ```bash
-docker-compose logs -f api
+docker compose logs -f api
 ```
 
 #### Parar os containers:
 
 ```bash
-docker-compose down
+docker compose down
 ```
 
 #### Remover volumes (limpar banco):
 
 ```bash
-docker-compose down -v
+docker compose down -v
+```
+
+#### Remover imagens criadas pelo compose:
+
+```bash
+docker compose down --rmi local
 ```
 
 ---
